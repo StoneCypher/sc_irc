@@ -11,9 +11,23 @@
 	disconnect/1,
 
 	channel_type/1,
-	  legal_channel_name_char/1
+	  legal_channel_name_char/1,
+
+	parse_message/1
 
 ] ).
+
+
+
+
+
+-record( irc_message, {
+
+    prefix     = none,
+    command,
+    parameters = []
+
+} ).
 
 
 
@@ -67,3 +81,23 @@ legal_channel_name_char(7)  -> false;
 legal_channel_name_char($ ) -> false;
 legal_channel_name_char($,) -> false;
 legal_channel_name_char(I) when is_integer(I), I >= 0, I =< 255 -> true.  % whargarbl can this take nulls and etc?  what's the charset
+
+
+
+
+
+%% @doc Parses a message received from an IRC server.
+
+parse_message([$:|RemMessage]) ->
+
+    [Prefix, Command | Parameters] = sc:explode(" ", RemMessage),
+    #irc_message{ prefix=Prefix, command=Command, parameters=Parameters };
+
+
+
+
+
+parse_message(Message) when is_list(Message) ->
+
+    [Prefix, Command | Parameters] = sc:explode(" ", Message),
+    #irc_message{ command=Command, parameters=Parameters }.
