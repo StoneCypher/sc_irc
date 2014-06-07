@@ -1,0 +1,4 @@
+%% encoding: UTF-8
+{application,sc_irc}.
+{packages,[]}.
+{modules,[sc_irc]}.
