@@ -1,0 +1,15 @@
+%% -*- mode: erlang -*-
+{application, sc_irc,
+ [
+  {description, "StoneCypher's IRC client library"},
+  {vsn, "0.0.1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  %% uncomment if this is an active application
+  %% {mod, { example_project_app, []}},
+  {env, []}
+ ]}.
+%% vim: set filetype=erlang tabstop=2
