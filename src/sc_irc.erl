@@ -75,7 +75,7 @@ channel_type([$#|Rem]) ->
 
 
 
-%% @doc Predicate returning true for characters that are legal within a channel name.
+%% @doc Predicate returning true for characters that are legal within a channel name.  Spec section `1.3'.
 
 legal_channel_name_char(7)  -> false;
 legal_channel_name_char($ ) -> false;
@@ -86,7 +86,7 @@ legal_channel_name_char(I) when is_integer(I), I >= 0, I =< 255 -> true.  % whar
 
 
 
-%% @doc Parses a message received from an IRC server.
+%% @doc Parses a message received from an IRC server.  Spec section `2.3'.
 
 parse_message([$:|RemMessage]) ->
 
