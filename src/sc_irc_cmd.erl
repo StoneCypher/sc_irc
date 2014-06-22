@@ -49,7 +49,7 @@ assemble(Command, Params, Trailing) -> sc:implode(" ", [Command] ++ Params ++ ["
 
 valid_assemble(Command, Params) -> 
 
-    sc_irc_util:throw_on_illegal_paramlist(Params),
+    sc_irc_validate:paramlist(Params),
     assemble(Command, Params).
 
 
@@ -60,8 +60,8 @@ valid_assemble(Command, Params) ->
 
 valid_assemble(Command, Params, Trailing) -> 
 
-    sc_irc_util:throw_on_illegal_param(Command),  % todo *should* test against the complete list of commands instead whargarbl
-    sc_irc_util:throw_on_illegal_paramlist_and_trailing(Params, Trailing),
+    sc_irc_validate:param(Command),  % todo *should* test against the complete list of commands instead whargarbl
+    sc_irc_validate:paramlist_and_trailing(Params, Trailing),
     assemble(Command, Params, Trailing).
 
 
@@ -72,7 +72,7 @@ valid_assemble(Command, Params, Trailing) ->
 
 pass(Password) when is_list(Password) ->
 
-    sc_irc_util:valid_assemble("PASS", [Password]).
+    valid_assemble("PASS", [Password]).
 
     % expect ERR_NEEDMOREPARAMS | ERR_ALREADYREGISTRED
 
@@ -84,7 +84,7 @@ pass(Password) when is_list(Password) ->
 
 nick(NewNick) when is_list(NewNick) ->
 
-    sc_irc_util:valid_assemble("NICK", [NewNick]).
+    valid_assemble("NICK", [NewNick]).
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
 
