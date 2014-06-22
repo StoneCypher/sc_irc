@@ -23,11 +23,11 @@
     nick/1,
     user/4,
     oper/2,
-    quit/0, quit/1,
+    quit/0,  quit/1,
     join/1,
-    part/1, part/2,
-    mode/2, mode/3,
-    topic/2
+    part/1,  part/2,
+    mode/2,  mode/3,
+    topic/1, topic/2
 
 ]).
 
@@ -211,6 +211,19 @@ mode(ChannelOrUser, ModeString, Arg) when is_list(ChannelOrUser), is_list(ModeSt
 
 
 
+%% @doc Gets a channel's topic.
+
+topic(ChannelName) when is_list(ChannelName) ->
+
+    sc_irc_validate:channel_name(ChannelName),
+    valid_assemble("TOPIC", [ChannelName]).
+
+    % expect ERR_NOTONCHANNEL | RPL_NOTOPIC | RPL_TOPIC | ERR_CHANOPRIVSNEEDED
+
+
+
+
+
 %% @doc Sets a channel topic.
 
 topic(ChannelName, NewTopic) when is_list(ChannelName), is_list(NewTopic) ->
@@ -218,4 +231,4 @@ topic(ChannelName, NewTopic) when is_list(ChannelName), is_list(NewTopic) ->
     sc_irc_validate:channel_name(ChannelName),
     valid_assemble("TOPIC", [ChannelName], NewTopic).
 
-    % expect ERR_NEEDMOREPARAMS | ERR_NOTONCHANNEL | RPL_NOTOPIC | RPL_TOPIC | ERR_CHANOPRIVSNEEDED
+    % expect ERR_NEEDMOREPARAMS | ERR_NOTONCHANNEL | RPL_TOPIC | ERR_CHANOPRIVSNEEDED

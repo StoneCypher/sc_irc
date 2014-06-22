@@ -1,4 +1,4 @@
 %% encoding: UTF-8
 {application,sc_irc}.
 {packages,[]}.
-{modules,[sc_irc,sc_irc_cmd,sc_irc_util]}.
+{modules,[sc_irc,sc_irc_cmd,sc_irc_util,sc_irc_validate]}.
