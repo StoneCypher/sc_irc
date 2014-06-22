@@ -57,9 +57,6 @@ user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(H
 
     sc_irc_util:throw_on_illegal_paramlist_and_trailing( [UserName, HostName, ServerName], RealName),
 
-    "USER " ++ UserName
-     ++ " " ++ HostName
-     ++ " " ++ ServerName
-    ++ " :" ++ RealName.
+    assemble("USER", [UserName, HostName, ServerName], RealName).
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
