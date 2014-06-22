@@ -64,3 +64,22 @@ throw_on_illegal_param(Param) ->
     	_     -> ok
     end.
 
+
+
+
+
+is_legal_trailing(Trailing) ->
+
+    true.  % todo whargarbl comeback
+
+
+
+
+
+throw_on_illegal_param(Trailing) ->
+
+    case is_legal_trailing(Trailing) of
+    	false -> throw(badarg);
+    	_     -> ok
+    end.
+
