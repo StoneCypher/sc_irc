@@ -7,7 +7,9 @@
 
 -export([
 
-    pass/1
+    pass/1,
+    nick/1,
+    user/4
 
 ]).
 
@@ -19,7 +21,7 @@ pass(Password) when is_list(Password) ->
 
     sc_irc_util:throw_on_illegal_param(Password),
 
-    "PASS " ++ Passwd.
+    "PASS " ++ Password.
 
     % expect ERR_NEEDMOREPARAMS | ERR_ALREADYREGISTRED
 
@@ -27,11 +29,11 @@ pass(Password) when is_list(Password) ->
 
 
 
-nick(NewNick) when is_list(Nick) ->
+nick(NewNick) when is_list(NewNick) ->
 
-    sc_irc_util:throw_on_illegal_param(Nick),
+    sc_irc_util:throw_on_illegal_param(NewNick),
 
-    "NICK " ++ Passwd.
+    "NICK " ++ NewNick.
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
 
@@ -41,8 +43,7 @@ nick(NewNick) when is_list(Nick) ->
 
 user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(HostName), is_list(ServerName), is_list(RealName) ->
 
-    [ sc_irc_util:throw_on_illegal_param(Auditables) || Auditables <- [UserName, HostName, ServerName] ],
-    sc_irc_util:throw_on_illegal_trailing(RealName),
+    sc_irc_util:throw_on_illegal_paramlist_and_trailing( [UserName, HostName, ServerName], RealName),
 
     "USER " ++ UserName
      ++ " " ++ HostName
