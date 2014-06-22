@@ -60,8 +60,8 @@ is_legal_param(Param) ->
 throw_on_illegal_param(Param) ->
 
     case is_legal_param(Param) of
-    	false -> throw(badarg);
-    	_     -> ok
+        false -> throw(badarg);
+        _     -> ok
     end.
 
 
@@ -79,7 +79,14 @@ is_legal_trailing(Trailing) ->
 throw_on_illegal_param(Trailing) ->
 
     case is_legal_trailing(Trailing) of
-    	false -> throw(badarg);
-    	_     -> ok
+        false -> throw(badarg);
+        _     -> ok
     end.
 
+
+
+
+
+throw_on_illegal_paramlist(ParamList) ->
+
+    [ throw_on_illegal_param(Auditables) || Auditables <- ParamList ].
