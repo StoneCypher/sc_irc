@@ -8,7 +8,10 @@
 -export([
 
     irc_strcomp_i/2,
-      irc_strcomp_i_nordfix/1
+      irc_strcomp_i_nordfix/1,
+
+    is_legal_param/1,
+      throw_on_illegal_param/1
 
 ]).
 
@@ -44,4 +47,20 @@ irc_strcomp_i(Str1, Str2) ->
 
 
 
+
+
+is_legal_param(Param) ->
+
+    true.  % todo
+
+
+
+
+
+throw_on_illegal_param(Param) ->
+
+    case is_legal_param(Param) of
+    	false -> throw(badarg);
+    	_     -> ok
+    end.
 
