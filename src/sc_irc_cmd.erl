@@ -19,7 +19,8 @@
     pass/1,
     nick/1,
     user/4,
-    oper/2
+    oper/2,
+    quit/1
 
 ]).
 
@@ -101,5 +102,17 @@ user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(H
 oper(UserName, Password) when is_list(UserName), is_list(Password) ->
 
     valid_assemble("OPER", [UserName, Password]).
+
+    % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH
+
+
+
+
+
+%% @doc Renders the command string to terminate the connection with a denoument.
+
+quit(QuitMessage) when is_list(QuitMessage) ->
+
+    valid_assemble("QUIT", [], QuitMessage).
 
     % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH
