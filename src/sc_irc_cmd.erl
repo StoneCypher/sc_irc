@@ -23,7 +23,9 @@
     nick/1,
     user/4,
     oper/2,
-    quit/1
+    quit/1,
+    join/1,
+    part/1, part/2
 
 ]).
 
@@ -118,7 +120,7 @@ quit(QuitMessage) when is_list(QuitMessage) ->
 
     valid_assemble("QUIT", [], QuitMessage).
 
-    % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH
+    % expect (nothing)
 
 
 
@@ -132,4 +134,31 @@ join(ChannelName) when is_list(ChannelName) ->
 
     valid_assemble("JOIN", [ChannelName]).
 
-    % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH
+    % expect ERR_NEEDMOREPARAMS | ERR_BANNEDFROMCHAN | ERR_INVITEONLYCHAN | ERR_BADCHANNELKEY 
+    %      | ERR_CHANNELISFULL  | ERR_BADCHANMASK    | ERR_NOSUCHCHANNEL  | ERR_TOOMANYCHANNELS 
+    %      | RPL_TOPIC
+
+
+
+
+
+%% @doc Renders the command string to depart a channel; must include # or &amp; sigil.  Standard does not
+%% seem to accomodate a part message, but as it's a standard piece of IRC, it's being supported here.
+
+part(ChannelName) when is_list(ChannelName) ->
+
+    part(ChannelName, "sc_irc").
+
+
+
+
+
+part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) ->
+
+    %% todo validate legal channel name
+
+    valid_assemble("JOIN", [ChannelName], PartMessage).
+
+    % expect ERR_NEEDMOREPARAMS | ERR_BANNEDFROMCHAN | ERR_INVITEONLYCHAN | ERR_BADCHANNELKEY 
+    %      | ERR_CHANNELISFULL  | ERR_BADCHANMASK    | ERR_NOSUCHCHANNEL  | ERR_TOOMANYCHANNELS 
+    %      | RPL_TOPIC
