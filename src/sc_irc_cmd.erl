@@ -23,15 +23,16 @@
     nick/1,
     user/4,
     oper/2,
-    quit/0,  quit/1,
+    quit/0,    quit/1,
     join/1,
-    part/1,  part/2,
-    mode/2,  mode/3,
-    topic/1, topic/2,
-    names/0, names/1,
-    list/0,  list/1,
+    part/1,    part/2,
+    mode/2,    mode/3,
+    topic/1,   topic/2,
+    names/0,   names/1,
+    list/0,    list/1,
     invite/2,
-    kick/2,  kick/3
+    kick/2,    kick/3,
+    version/0
 
 ]).
 
@@ -306,7 +307,7 @@ invite(UserName, ChannelName) when is_list(UserName), is_list(ChannelName) ->
 
 
 
-%% @doc Invites a user to a channel.
+%% @doc Forcibly removes a user from a channel.
 
 kick(ChannelName, UserName) when is_list(ChannelName), is_list(UserName) ->
 
@@ -320,12 +321,24 @@ kick(ChannelName, UserName) when is_list(ChannelName), is_list(UserName) ->
 
 
 
-%% @doc Invites a user to a channel.
+%% @doc Forcibly removes a user from a channel, with a reason message.
 
 kick(ChannelName, UserName, Reason) when is_list(ChannelName), is_list(UserName), is_list(Reason) ->
 
     sc_irc_validate:channel_name(ChannelName),
     sc_irc_validate:user_name(UserName),
     valid_assemble("KICK", [UserName, ChannelName], Reason).
+
+    % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_BADCHANMASK | ERR_CHANOPRIVSNEEDED | ERR_NOTONCHANNEL
+
+
+
+
+
+%% @doc Gets the version of the IRC server software this client is connected directly to.
+
+version() ->
+
+    valid_assemble("VERSION", []).
 
     % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_BADCHANMASK | ERR_CHANOPRIVSNEEDED | ERR_NOTONCHANNEL
