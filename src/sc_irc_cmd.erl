@@ -1,6 +1,8 @@
 
 -module(sc_irc_cmd).
 
+% does not implement SERVER message in 4.1.4 because client libs don't need that
+
 
 
 
@@ -16,7 +18,8 @@
 
     pass/1,
     nick/1,
-    user/4
+    user/4,
+    oper/2
 
 ]).
 
@@ -61,9 +64,7 @@ valid_assemble(Command, Params, Trailing) ->
 
 pass(Password) when is_list(Password) ->
 
-    sc_irc_util:throw_on_illegal_param(Password),
-
-    "PASS " ++ Password.
+    sc_irc_util:valid_assemble("PASS", [Password]).
 
     % expect ERR_NEEDMOREPARAMS | ERR_ALREADYREGISTRED
 
@@ -75,9 +76,7 @@ pass(Password) when is_list(Password) ->
 
 nick(NewNick) when is_list(NewNick) ->
 
-    sc_irc_util:throw_on_illegal_param(NewNick),
-
-    "NICK " ++ NewNick.
+    sc_irc_util:valid_assemble("NICK", [NewNick]).
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
 
@@ -92,3 +91,15 @@ user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(H
     valid_assemble("USER", [UserName, HostName, ServerName], RealName).
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
+
+
+
+
+
+%% @doc Renders the command string to request oper status with a username and password.
+
+oper(UserName, Password) when is_list(UserName), is_list(Password) ->
+
+    valid_assemble("OPER", [UserName, Password]).
+
+    % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH
