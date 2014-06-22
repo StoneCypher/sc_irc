@@ -23,7 +23,7 @@
     nick/1,
     user/4,
     oper/2,
-    quit/1,
+    quit/0, quit/1,
     join/1,
     part/1, part/2
 
@@ -114,6 +114,18 @@ oper(UserName, Password) when is_list(UserName), is_list(Password) ->
 
 
 
+%% @doc Renders the command string to terminate the connection with the standard quitmessage "sc_irc".
+
+quit() ->
+
+    quit("sc_irc").
+
+    % expect (nothing)
+
+
+
+
+
 %% @doc Renders the command string to terminate the connection with a denoument.
 
 quit(QuitMessage) when is_list(QuitMessage) ->
@@ -142,8 +154,7 @@ join(ChannelName) when is_list(ChannelName) ->
 
 
 
-%% @doc Renders the command string to depart a channel; must include # or &amp; sigil.  Standard does not
-%% seem to accomodate a part message, but as it's a standard piece of IRC, it's being supported here.
+%% @doc Renders the command string to depart a channel with the standard partmessage "sc_irc"
 
 part(ChannelName) when is_list(ChannelName) ->
 
@@ -152,6 +163,9 @@ part(ChannelName) when is_list(ChannelName) ->
 
 
 
+
+%% @doc Renders the command string to depart a channel; must include # or &amp; sigil.  Standard does not
+%% seem to accomodate a part message, but as it's a standard piece of IRC, it's being supported here.
 
 part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) ->
 
