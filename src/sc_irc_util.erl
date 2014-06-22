@@ -11,7 +11,12 @@
       irc_strcomp_i_nordfix/1,
 
     is_legal_param/1,
-      throw_on_illegal_param/1
+      is_legal_trailing/1,
+
+    throw_on_illegal_param/1,
+      throw_on_illegal_trailing/1,
+      throw_on_illegal_paramlist/1,
+      throw_on_illegal_paramlist_and_trailing/2
 
 ]).
 
@@ -76,7 +81,7 @@ is_legal_trailing(Trailing) ->
 
 
 
-throw_on_illegal_param(Trailing) ->
+throw_on_illegal_trailing(Trailing) ->
 
     case is_legal_trailing(Trailing) of
         false -> throw(badarg);
@@ -90,3 +95,12 @@ throw_on_illegal_param(Trailing) ->
 throw_on_illegal_paramlist(ParamList) ->
 
     [ throw_on_illegal_param(Auditables) || Auditables <- ParamList ].
+
+
+
+
+
+throw_on_illegal_paramlist_and_trailing(ParamList, Trailing) ->
+
+    throw_on_illegal_paramlist(ParamList),
+    throw_on_illegal_trailing(Trailing).
