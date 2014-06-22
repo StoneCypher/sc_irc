@@ -14,7 +14,9 @@
     paramlist/1,
     trailing/1,
     paramlist_and_trailing/2,
-    channel_name/1
+    channel_name/1,
+    user_name/1,
+    channel_or_user/1
 
 ]).
 
@@ -22,7 +24,38 @@
 
 
 
-is_legal_param(Param) ->
+throw_if_not(false) -> throw(badarg);
+throw_if_not( _ )   -> ok.
+
+
+
+
+
+is_legal_param(_Param) ->
+
+    true.  % todo whargarbl comeback
+
+
+
+
+
+is_legal_trailing(_Trailing) ->
+
+    true.  % todo whargarbl comeback
+
+
+
+
+
+is_legal_user_name(_UserName) ->
+
+    true.  % todo whargarbl comeback
+
+
+
+
+
+is_legal_channel_name(_ChannelName) ->
 
     true.  % todo whargarbl comeback
 
@@ -34,18 +67,7 @@ is_legal_param(Param) ->
 
 param(Param) ->
 
-    case is_legal_param(Param) of
-        false -> throw(badarg);
-        _     -> ok
-    end.
-
-
-
-
-
-is_legal_trailing(Trailing) ->
-
-    true.  % todo whargarbl comeback
+    throw_if_not( is_legal_param(Param) ).
 
 
 
@@ -55,10 +77,7 @@ is_legal_trailing(Trailing) ->
 
 trailing(Trailing) ->
 
-    case is_legal_trailing(Trailing) of
-        false -> throw(badarg);
-        _     -> ok
-    end.
+    throw_if_not( is_legal_trailing(Trailing) ).
 
 
 
@@ -89,7 +108,7 @@ paramlist_and_trailing(ParamList, Trailing) ->
 
 channel_name(CName) ->
 
-    ok.
+    throw_if_not( is_legal_channel_name(CName) ).
 
 
 
@@ -97,9 +116,9 @@ channel_name(CName) ->
 
 %% @doc Throws if the argument passed in isn't a valid channel name (NOT IMPLEMENTED).
 
-user_name(CName) ->
+user_name(UName) ->
 
-    ok.
+    throw_if_not( is_legal_user_name(UName) ).
 
 
 
@@ -107,6 +126,6 @@ user_name(CName) ->
 
 %% @doc Throws if the argument passed in isn't a valid channel name or username (NOT IMPLEMENTED).
 
-channel_or_user(CName) ->
+channel_or_user(CUName) ->
 
-    ok.
+    throw_if_not( is_legal_user_name(CUName) orelse is_legal_channel_name(CUName) ).
