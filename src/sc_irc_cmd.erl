@@ -30,7 +30,8 @@
     topic/1, topic/2,
     names/0, names/1,
     list/0,  list/1,
-    invite/2
+    invite/2,
+    kick/2,  kick/3
 
 ]).
 
@@ -300,3 +301,31 @@ invite(UserName, ChannelName) when is_list(UserName), is_list(ChannelName) ->
 
     % expect ERR_NEEDMOREPARAMS   | ERR_NOSUCHNICK | ERR_NOTONCHANNEL | ERR_USERONCHANNEL
     %        ERR_CHANOPRIVSNEEDED | RPL_INVITING   | RPL_AWAY
+
+
+
+
+
+%% @doc Invites a user to a channel.
+
+kick(ChannelName, UserName) when is_list(ChannelName), is_list(UserName) ->
+
+    sc_irc_validate:channel_name(ChannelName),
+    sc_irc_validate:user_name(UserName),
+    valid_assemble("KICK", [UserName, ChannelName]).
+
+    % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_BADCHANMASK | ERR_CHANOPRIVSNEEDED | ERR_NOTONCHANNEL
+
+
+
+
+
+%% @doc Invites a user to a channel.
+
+kick(ChannelName, UserName, Reason) when is_list(ChannelName), is_list(UserName), is_list(Reason) ->
+
+    sc_irc_validate:channel_name(ChannelName),
+    sc_irc_validate:user_name(UserName),
+    valid_assemble("KICK", [UserName, ChannelName], Reason).
+
+    % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_BADCHANMASK | ERR_CHANOPRIVSNEEDED | ERR_NOTONCHANNEL
