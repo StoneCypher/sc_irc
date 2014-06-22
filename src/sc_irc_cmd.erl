@@ -179,7 +179,7 @@ part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) -
 
 
 
-%% @doc Covers both user and channel modes; may or may not have an argument beyond the mode letter.
+%% @doc Set a user or a channel mode.
 
 mode(ChannelOrUser, ModeString) when is_list(ChannelOrUser), is_list(ModeString) ->
 
@@ -195,7 +195,7 @@ mode(ChannelOrUser, ModeString) when is_list(ChannelOrUser), is_list(ModeString)
 
 
 
-%% @doc Covers both user and channel modes; may or may not have an argument beyond the mode letter.
+%% @doc Set a user or a channel mode that takes an argument (like a ban mask or a channel size.)
 
 mode(ChannelOrUser, ModeString, Arg) when is_list(ChannelOrUser), is_list(ModeString), is_list(Arg) ->
 
