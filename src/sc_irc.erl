@@ -7,7 +7,11 @@
 %% @todo max nick length semi-configurable - 9, any, or server-defined, rfc section 1.2 vs reality
 %% @todo ircops mentioned section 1.2.1; squit, connect, kill
 %% @todo 1.3.1 chanops can kick, mode, invite, topic
-
+%% @todo section 2.3.1 parsing grammar
+%% @todo section 2.4 reply requirements
+%% @todo section 2.5 wildcards (wut)
+%% @todo section 3 response on no such server
+%% @todo section 3.1 PASS and SERVICE connections
 
 
 
