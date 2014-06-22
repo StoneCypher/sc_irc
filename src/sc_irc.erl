@@ -43,7 +43,8 @@
 
     prefix     = none,
     command,
-    parameters = []
+    parameters  = [],
+    paramstring = ""
 
 } ).
 
@@ -119,7 +120,7 @@ legal_channel_name_char(I) when is_integer(I), I >= 0, I =< 255 -> true.  % whar
 parse_message([$:|RemMessage]) ->
 
     [Prefix, Command | Parameters] = sc:explode(" ", RemMessage),
-    #irc_message{ prefix=Prefix, command=Command, parameters=Parameters };
+    #irc_message{ prefix=Prefix, command=Command, parameters=Parameters, paramstring=sc:implode(" ", Parameters) };
 
 
 
@@ -128,7 +129,7 @@ parse_message([$:|RemMessage]) ->
 parse_message(Message) when is_list(Message) ->
 
     [Command | Parameters] = sc:explode(" ", Message),
-    #irc_message{ command=Command, parameters=Parameters }.
+    #irc_message{ command=Command, parameters=Parameters, paramstring=sc:implode(" ", Parameters) }.
 
 
 
