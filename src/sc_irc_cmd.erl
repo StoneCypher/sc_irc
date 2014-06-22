@@ -173,6 +173,38 @@ part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) -
 
     valid_assemble("JOIN", [ChannelName], PartMessage).
 
-    % expect ERR_NEEDMOREPARAMS | ERR_BANNEDFROMCHAN | ERR_INVITEONLYCHAN | ERR_BADCHANNELKEY 
-    %      | ERR_CHANNELISFULL  | ERR_BADCHANMASK    | ERR_NOSUCHCHANNEL  | ERR_TOOMANYCHANNELS 
-    %      | RPL_TOPIC
+    % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_NOTONCHANNEL
+
+
+
+
+
+%% @doc Covers both user and channel modes; may or may not have an argument beyond the mode letter.
+
+mode(ChannelOrUser, ModeString) when is_list(ChannelOrUser), is_list(ModeString) ->
+
+    %% todo validate legal channel name
+
+    valid_assemble("MODE", [ChannelOrUser, ModeString]).
+
+    % expect ERR_NEEDMOREPARAMS | RPL_CHANNELMODEIS | ERR_CHANOPRIVSNEEDED | ERR_NOSUCHNICK
+    %        ERR_NOTONCHANNEL   | ERR_KEYSET        | RPL_BANLIST          | RPL_ENDOFBANLIST
+    %        ERR_UNKNOWNMODE    | ERR_NOSUCHCHANNEL | ERR_USERSDONTMATCH   | RPL_UMODEIS
+    %        ERR_UMODEUNKNOWNFLAG
+
+
+
+
+
+%% @doc Covers both user and channel modes; may or may not have an argument beyond the mode letter.
+
+mode(ChannelOrUser, ModeString, Arg) when is_list(ChannelOrUser), is_list(ModeString), is_list(Arg) ->
+
+    %% todo validate legal channel name
+
+    valid_assemble("MODE", [ChannelOrUser, ModeString, Arg]).
+
+    % expect ERR_NEEDMOREPARAMS | RPL_CHANNELMODEIS | ERR_CHANOPRIVSNEEDED | ERR_NOSUCHNICK
+    %        ERR_NOTONCHANNEL   | ERR_KEYSET        | RPL_BANLIST          | RPL_ENDOFBANLIST
+    %        ERR_UNKNOWNMODE    | ERR_NOSUCHCHANNEL | ERR_USERSDONTMATCH   | RPL_UMODEIS
+    %        ERR_UMODEUNKNOWNFLAG
