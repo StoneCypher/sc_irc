@@ -13,7 +13,8 @@
     param/1,
     paramlist/1,
     trailing/1,
-    paramlist_and_trailing/2
+    paramlist_and_trailing/2,
+    channel_name/1
 
 ]).
 
@@ -79,3 +80,23 @@ paramlist_and_trailing(ParamList, Trailing) ->
 
     paramlist(ParamList),
     trailing(Trailing).
+
+
+
+
+
+%% @doc Throws if the argument passed in isn't a valid channel name (NOT IMPLEMENTED).
+
+channel_name(CName) ->
+
+    ok.
+
+
+
+
+
+%% @doc Throws if the argument passed in isn't a valid channel name or username (NOT IMPLEMENTED).
+
+channel_or_user(CName) ->
+
+    ok.

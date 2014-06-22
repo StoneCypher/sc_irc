@@ -144,8 +144,7 @@ quit(QuitMessage) when is_list(QuitMessage) ->
 
 join(ChannelName) when is_list(ChannelName) ->
 
-    %% todo validate legal channel name
-
+    sc_irc_validate:channel_name(ChannelName),
     valid_assemble("JOIN", [ChannelName]).
 
     % expect ERR_NEEDMOREPARAMS | ERR_BANNEDFROMCHAN | ERR_INVITEONLYCHAN | ERR_BADCHANNELKEY 
@@ -171,8 +170,7 @@ part(ChannelName) when is_list(ChannelName) ->
 
 part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) ->
 
-    %% todo validate legal channel name
-
+    sc_irc_validate:channel_name(ChannelName),
     valid_assemble("JOIN", [ChannelName], PartMessage).
 
     % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_NOTONCHANNEL
@@ -185,8 +183,7 @@ part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) -
 
 mode(ChannelOrUser, ModeString) when is_list(ChannelOrUser), is_list(ModeString) ->
 
-    %% todo validate legal channel name
-
+    sc_irc_validate:channel_or_user(ChannelOrUser),
     valid_assemble("MODE", [ChannelOrUser, ModeString]).
 
     % expect ERR_NEEDMOREPARAMS | RPL_CHANNELMODEIS | ERR_CHANOPRIVSNEEDED | ERR_NOSUCHNICK
@@ -202,8 +199,7 @@ mode(ChannelOrUser, ModeString) when is_list(ChannelOrUser), is_list(ModeString)
 
 mode(ChannelOrUser, ModeString, Arg) when is_list(ChannelOrUser), is_list(ModeString), is_list(Arg) ->
 
-    %% todo validate legal channel name
-
+    sc_irc_validate:channel_or_user(ChannelOrUser),
     valid_assemble("MODE", [ChannelOrUser, ModeString, Arg]).
 
     % expect ERR_NEEDMOREPARAMS | RPL_CHANNELMODEIS | ERR_CHANOPRIVSNEEDED | ERR_NOSUCHNICK
@@ -217,10 +213,9 @@ mode(ChannelOrUser, ModeString, Arg) when is_list(ChannelOrUser), is_list(ModeSt
 
 %% @doc Sets a channel topic.
 
-topic(Channel, NewTopic) when is_list(Channel), is_list(NewTopic) ->
+topic(ChannelName, NewTopic) when is_list(ChannelName), is_list(NewTopic) ->
 
-    %% todo validate legal channel name
-
-    valid_assemble("TOPIC", [Channel], NewTopic).
+    sc_irc_validate:channel_name(ChannelName),
+    valid_assemble("TOPIC", [ChannelName], NewTopic).
 
     % expect ERR_NEEDMOREPARAMS | ERR_NOTONCHANNEL | RPL_NOTOPIC | RPL_TOPIC | ERR_CHANOPRIVSNEEDED

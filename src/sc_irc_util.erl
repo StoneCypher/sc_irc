@@ -8,7 +8,7 @@
 -export([
 
     irc_strcomp_i/2,
-      irc_strcomp_i_nordfix/1,
+      irc_strcomp_i_nordfix/1
 
 ]).
 
