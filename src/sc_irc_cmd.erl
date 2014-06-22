@@ -1,7 +1,10 @@
 
 -module(sc_irc_cmd).
 
-% does not implement SERVER message in 4.1.4 because client libs don't need that
+% does not implement sending for SERVER message in 4.1.4, SQUIT 4.1.7 because client libs don't need them
+% does not implement multiple join notation from 4.2.1 because who cares
+
+% TODO whargarbl gotta walk section 4 again for parsing
 
 
 
@@ -114,5 +117,19 @@ oper(UserName, Password) when is_list(UserName), is_list(Password) ->
 quit(QuitMessage) when is_list(QuitMessage) ->
 
     valid_assemble("QUIT", [], QuitMessage).
+
+    % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH
+
+
+
+
+
+%% @doc Renders the command string to join a channel; must include # or &amp; sigil
+
+join(ChannelName) when is_list(ChannelName) ->
+
+    %% todo validate legal channel name
+
+    valid_assemble("JOIN", [ChannelName]).
 
     % expect ERR_NEEDMOREPARAMS | RPL_YOUREOPER | ERR_NOOPERHOST | ERR_PASSWDMISMATCH

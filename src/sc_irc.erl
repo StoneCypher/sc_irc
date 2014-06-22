@@ -81,6 +81,7 @@ disconnect(_Pid) ->
 
 % 1.3 defines the channel length as up to 200 including prefix
 % todo spec tests around length
+
 channel_type(Name) when is_list(Name), length(Name) > 200 ->
 
     throw(badarg);
