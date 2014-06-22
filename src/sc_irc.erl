@@ -6,6 +6,7 @@
 
 %% @todo max nick length semi-configurable - 9, any, or server-defined, rfc section 1.2 vs reality
 %% @todo ircops mentioned section 1.2.1; squit, connect, kill
+%% @todo 1.3.1 chanops can kick, mode, invite, topic
 
 
 
@@ -23,12 +24,16 @@
 	connect/1,
 	disconnect/1,
 
+    irc_strcomp_i/2,
+      irc_strcomp_i_nordfix/1,
+
 	channel_type/1,
 	  legal_channel_name_char/1,
 
 	parse_message/1
 
 ] ).
+
 
 
 
@@ -71,7 +76,7 @@ disconnect(_Pid) ->
 -spec channel_type(ChannelName::[char()]) -> local | global.
 
 % 1.3 defines the channel length as up to 200 including prefix
-% todo spec test around length
+% todo spec tests around length
 channel_type(Name) when is_list(Name), length(Name) > 200 ->
 
     throw(badarg);
@@ -122,5 +127,31 @@ parse_message([$:|RemMessage]) ->
 
 parse_message(Message) when is_list(Message) ->
 
-    [Prefix, Command | Parameters] = sc:explode(" ", Message),
+    [Prefix, Command | Parameters] = sc:explode(" ", Message),   % todo whargarbl - why is this Prefix unused? :|
     #irc_message{ command=Command, parameters=Parameters }.
+
+
+
+
+
+irc_strcomp_i_nordfix(String) ->
+
+    irc_strcomp_i_nordfix(String, []).
+
+
+
+irc_strcomp_i_nordfix([],         Work)                         -> Work;
+
+irc_strcomp_i_nordfix([${ | Rem], Work)                         -> irc_strcomp_i_nordfix(Rem, [$[]             ++ Work);  % section 2.2, character codes
+irc_strcomp_i_nordfix([$} | Rem], Work)                         -> irc_strcomp_i_nordfix(Rem, [$]]             ++ Work);  % {}| are upper case []\
+irc_strcomp_i_nordfix([$| | Rem], Work)                         -> irc_strcomp_i_nordfix(Rem, [$\\]            ++ Work);  % http://irchelp.org/irchelp/rfc/chapter2.html
+irc_strcomp_i_nordfix([Ch | Rem], Work) when Ch >= $a, Ch =< $z -> irc_strcomp_i_nordfix(Rem, [Ch - ($a - $A)] ++ Work);
+irc_strcomp_i_nordfix([Ex | Rem], Work)                         -> irc_strcomp_i_nordfix(Rem, [Ex]             ++ Work).
+
+
+
+
+
+irc_strcomp_i(Str1, Str2) ->
+
+    string:equal( irc_strcomp_i_nordfix(Str1), irc_strcomp_i_nordfix(Str2) ).
