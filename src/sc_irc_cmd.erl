@@ -2,7 +2,7 @@
 -module(sc_irc_cmd).
 
 % does not implement sending for SERVER message in 4.1.4, SQUIT 4.1.7 because client libs don't need them
-% does not implement multiple join notation from 4.2.1 because who cares
+% does not implement multiple join notation from 4.2.1, part 4.2.2, names 4.2.5, list 4.2.6 because who cares
 
 % TODO whargarbl gotta walk section 4 again for parsing
 
@@ -27,7 +27,9 @@
     join/1,
     part/1,  part/2,
     mode/2,  mode/3,
-    topic/1, topic/2
+    topic/1, topic/2,
+    names/0, names/1,
+    list/0,  list/1
 
 ]).
 
@@ -257,3 +259,28 @@ names(ChannelName) when is_list(ChannelName) ->
     valid_assemble("NAMES", [ChannelName]).
 
     % expect RPL_NAMREPLY | RPL_ENDOFNAMES
+
+
+
+
+
+%% @doc Lists visible channels and their topics.
+
+list() ->
+
+    valid_assemble("LIST", []).
+
+    % expect ERR_NOSUCHSERVER | RPL_LISTSTART | RPL_LIST | RPL_LISTEND
+
+
+
+
+
+%% @doc Lists the topic of a single channel.
+
+list(ChannelName) when is_list(ChannelName) ->
+
+    sc_irc_validate:channel_name(ChannelName),
+    valid_assemble("LIST", [ChannelName]).
+
+    % expect ERR_NOSUCHSERVER | RPL_LISTSTART | RPL_LIST | RPL_LISTEND
