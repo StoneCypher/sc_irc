@@ -25,7 +25,9 @@
     oper/2,
     quit/0, quit/1,
     join/1,
-    part/1, part/2
+    part/1, part/2,
+    mode/2, mode/3,
+    topic/2
 
 ]).
 
@@ -66,7 +68,7 @@ valid_assemble(Command, Params, Trailing) ->
 
 
 
-%% @doc Renders the command string to set a connection password at the beginning of the connection sequence.
+%% @doc Sets the connection password at the beginning of the connection sequence.
 
 pass(Password) when is_list(Password) ->
 
@@ -78,7 +80,7 @@ pass(Password) when is_list(Password) ->
 
 
 
-%% @doc Renders the command string to set a nickname.  TODO whargarbl how do I best handle setting this to max 9 chars when in reality that's rarely the case?
+%% @doc Sets a client nickname.  TODO whargarbl how do I best handle setting this to max 9 chars when in reality that's rarely the case?
 
 nick(NewNick) when is_list(NewNick) ->
 
@@ -90,7 +92,7 @@ nick(NewNick) when is_list(NewNick) ->
 
 
 
-%% @doc Renders the command string to set a user account with username, hostname, and servername as parameters, then with realname as a trailing string.
+%% @doc Sets a user account with username, hostname, and servername as parameters, then with realname as a trailing string.
 
 user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(HostName), is_list(ServerName), is_list(RealName) ->
 
@@ -102,7 +104,7 @@ user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(H
 
 
 
-%% @doc Renders the command string to request oper status with a username and password.
+%% @doc Requests oper status with a username and password.
 
 oper(UserName, Password) when is_list(UserName), is_list(Password) ->
 
@@ -114,7 +116,7 @@ oper(UserName, Password) when is_list(UserName), is_list(Password) ->
 
 
 
-%% @doc Renders the command string to terminate the connection with the standard quitmessage "sc_irc".
+%% @doc Terminates the connection with the standard quitmessage "sc_irc".
 
 quit() ->
 
@@ -126,7 +128,7 @@ quit() ->
 
 
 
-%% @doc Renders the command string to terminate the connection with a denoument.
+%% @doc Terminates the connection with a denoument.
 
 quit(QuitMessage) when is_list(QuitMessage) ->
 
@@ -138,7 +140,7 @@ quit(QuitMessage) when is_list(QuitMessage) ->
 
 
 
-%% @doc Renders the command string to join a channel; must include # or &amp; sigil
+%% @doc Joins a channel; must include # or &amp; sigil
 
 join(ChannelName) when is_list(ChannelName) ->
 
@@ -154,7 +156,7 @@ join(ChannelName) when is_list(ChannelName) ->
 
 
 
-%% @doc Renders the command string to depart a channel with the standard partmessage "sc_irc"
+%% @doc Departs a channel with the standard partmessage "sc_irc"
 
 part(ChannelName) when is_list(ChannelName) ->
 
@@ -164,8 +166,8 @@ part(ChannelName) when is_list(ChannelName) ->
 
 
 
-%% @doc Renders the command string to depart a channel; must include # or &amp; sigil.  Standard does not
-%% seem to accomodate a part message, but as it's a standard piece of IRC, it's being supported here.
+%% @doc Departs a channel; must include # or &amp; sigil.  Standard does not seem to accomodate
+%% a part message, but as it's a standard piece of IRC, it's being supported here.
 
 part(ChannelName, PartMessage) when is_list(ChannelName), is_list(PartMessage) ->
 
@@ -208,3 +210,17 @@ mode(ChannelOrUser, ModeString, Arg) when is_list(ChannelOrUser), is_list(ModeSt
     %        ERR_NOTONCHANNEL   | ERR_KEYSET        | RPL_BANLIST          | RPL_ENDOFBANLIST
     %        ERR_UNKNOWNMODE    | ERR_NOSUCHCHANNEL | ERR_USERSDONTMATCH   | RPL_UMODEIS
     %        ERR_UMODEUNKNOWNFLAG
+
+
+
+
+
+%% @doc Sets a channel topic.
+
+topic(Channel, NewTopic) when is_list(Channel), is_list(NewTopic) ->
+
+    %% todo validate legal channel name
+
+    valid_assemble("TOPIC", [Channel], NewTopic).
+
+    % expect ERR_NEEDMOREPARAMS | ERR_NOTONCHANNEL | RPL_NOTOPIC | RPL_TOPIC | ERR_CHANOPRIVSNEEDED
