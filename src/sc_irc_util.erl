@@ -62,6 +62,8 @@ is_legal_param(Param) ->
 
 
 
+%% @doc Throws if the argument passed in isn't a valid IRC command parameter.
+
 throw_on_illegal_param(Param) ->
 
     case is_legal_param(Param) of
@@ -81,6 +83,8 @@ is_legal_trailing(Trailing) ->
 
 
 
+%% @doc Throws if the argument passed in isn't a valid IRC command trailing string.
+
 throw_on_illegal_trailing(Trailing) ->
 
     case is_legal_trailing(Trailing) of
@@ -92,6 +96,8 @@ throw_on_illegal_trailing(Trailing) ->
 
 
 
+%% @doc Throws if the argument passed in isn't a list of all valid IRC command parameters.
+
 throw_on_illegal_paramlist(ParamList) ->
 
     [ throw_on_illegal_param(Auditables) || Auditables <- ParamList ].
@@ -99,6 +105,8 @@ throw_on_illegal_paramlist(ParamList) ->
 
 
 
+
+%% @doc Throws if the first argument passed in isn't a list of all valid IRC command parameters, and/or the second a valid trailing string.
 
 throw_on_illegal_paramlist_and_trailing(ParamList, Trailing) ->
 
