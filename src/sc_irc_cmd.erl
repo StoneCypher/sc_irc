@@ -11,6 +11,9 @@
       assemble/2,
       assemble/3,
 
+    valid_assemble/2,
+      valid_assemble/3,
+
     pass/1,
     nick/1,
     user/4
@@ -24,6 +27,24 @@
 assemble(Command)                   -> Command.
 assemble(Command, Params)           -> sc:implode(" ", [Command] ++ Params).
 assemble(Command, Params, Trailing) -> sc:implode(" ", [Command] ++ Params ++ [":" ++ Trailing]).
+
+
+
+
+
+valid_assemble(Command, Params) -> 
+
+    sc_irc_util:throw_on_illegal_paramlist(Params),
+    assemble(Command, Params).
+
+
+
+
+
+valid_assemble(Command, Params, Trailing) -> 
+
+    sc_irc_util:throw_on_illegal_paramlist_and_trailing(Params, Trailing),
+    assemble(Command, Params, Trailing).
 
 
 
@@ -55,8 +76,6 @@ nick(NewNick) when is_list(NewNick) ->
 
 user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(HostName), is_list(ServerName), is_list(RealName) ->
 
-    sc_irc_util:throw_on_illegal_paramlist_and_trailing( [UserName, HostName, ServerName], RealName),
-
-    assemble("USER", [UserName, HostName, ServerName], RealName).
+    valid_assemble("USER", [UserName, HostName, ServerName], RealName).
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
