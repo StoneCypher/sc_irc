@@ -232,3 +232,28 @@ topic(ChannelName, NewTopic) when is_list(ChannelName), is_list(NewTopic) ->
     valid_assemble("TOPIC", [ChannelName], NewTopic).
 
     % expect ERR_NEEDMOREPARAMS | ERR_NOTONCHANNEL | RPL_TOPIC | ERR_CHANOPRIVSNEEDED
+
+
+
+
+
+%% @doc Lists every visible user and every visible channel (not generally a good idea.)
+
+names() ->
+
+    valid_assemble("NAMES", []).
+
+    % expect RPL_NAMREPLY | RPL_ENDOFNAMES
+
+
+
+
+
+%% @doc Lists all visible users in a single channel.
+
+names(ChannelName) when is_list(ChannelName) ->
+
+    sc_irc_validate:channel_name(ChannelName),
+    valid_assemble("NAMES", [ChannelName]).
+
+    % expect RPL_NAMREPLY | RPL_ENDOFNAMES
