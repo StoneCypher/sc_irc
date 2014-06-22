@@ -127,12 +127,14 @@ parse_message([$:|RemMessage]) ->
 
 parse_message(Message) when is_list(Message) ->
 
-    [Prefix, Command | Parameters] = sc:explode(" ", Message),   % todo whargarbl - why is this Prefix unused? :|
+    [Command | Parameters] = sc:explode(" ", Message),
     #irc_message{ command=Command, parameters=Parameters }.
 
 
 
 
+
+%% @doc Destructively prepares a string for comparison in the IRC nordic characterset.  Throws away substantial information and returns the string reversed.
 
 irc_strcomp_i_nordfix(String) ->
 
@@ -151,6 +153,8 @@ irc_strcomp_i_nordfix([Ex | Rem], Work)                         -> irc_strcomp_i
 
 
 
+
+%% @doc Case insensitively compares two strings given IRC's definition that `{}|' constitute lower-case `[]\\'.
 
 irc_strcomp_i(Str1, Str2) ->
 
