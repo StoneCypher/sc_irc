@@ -34,3 +34,19 @@ nick(NewNick) when is_list(Nick) ->
     "NICK " ++ Passwd.
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
+
+
+
+
+
+user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(HostName), is_list(ServerName), is_list(RealName) ->
+
+    [ sc_irc_util:throw_on_illegal_param(Auditables) || Auditables <- [UserName, HostName, ServerName] ],
+    sc_irc_util:throw_on_illegal_trailing(RealName),
+
+    "USER " ++ UserName
+     ++ " " ++ HostName
+     ++ " " ++ ServerName
+    ++ " :" ++ RealName.
+
+    % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
