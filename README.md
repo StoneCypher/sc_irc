@@ -16,7 +16,7 @@ tl;dr
 
 
 
-Current Library Status: *Usable*
+Current Library Status: *NOT Usable*
 --------------------------------
 
 This library is considered to be not ready.  It is just started in development.

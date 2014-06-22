@@ -73,7 +73,7 @@ disconnect(_Pid) ->
 
 
 
-%% @doc Describes a channel by type (local or global,) or throws if not a valid channel name.  To be valid, a channel must start with # or &,
+%% @doc Describes a channel by type (local or global,) or throws if not a valid channel name.  To be valid, a channel must start with # or &amp;,
 %% must not contain a space, a control-g, a comma, and must be 200 or fewer characters including the sigil.  The standard is vague on whether
 %% just-the-sigil is legitimate, so this library tolerates it.
 
