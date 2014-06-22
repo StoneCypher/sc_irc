@@ -21,7 +21,7 @@
 
     pass/1,
     nick/1,
-    user/4,
+    user/2,    user/4,
     oper/2,
     quit/0,    quit/1,
     join/1,
@@ -102,6 +102,18 @@ nick(NewNick) when is_list(NewNick) ->
 user(UserName, HostName, ServerName, RealName) when is_list(UserName), is_list(HostName), is_list(ServerName), is_list(RealName) ->
 
     valid_assemble("USER", [UserName, HostName, ServerName], RealName).
+
+    % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
+
+
+
+
+
+%% @doc Sets a user account with username as a parameter and with realname as a trailing string.  Defaults HostName to 8 (invisible) and ServerName to * (obsolete parameter.)
+
+user(UserName, RealName) when is_list(UserName), is_list(RealName) ->
+
+    valid_assemble("USER", [UserName, "8", "*"], RealName).
 
     % expect ERR_NONICKNAMEGIVEN | ERR_ERRONEUSNICKNAME | ERR_NICKNAMEINUSE | ERR_NICKCOLLISION
 
