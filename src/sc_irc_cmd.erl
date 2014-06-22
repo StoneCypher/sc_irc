@@ -29,7 +29,8 @@
     mode/2,  mode/3,
     topic/1, topic/2,
     names/0, names/1,
-    list/0,  list/1
+    list/0,  list/1,
+    invite/2
 
 ]).
 
@@ -284,3 +285,18 @@ list(ChannelName) when is_list(ChannelName) ->
     valid_assemble("LIST", [ChannelName]).
 
     % expect ERR_NOSUCHSERVER | RPL_LISTSTART | RPL_LIST | RPL_LISTEND
+
+
+
+
+
+%% @doc Invites a user to a channel.
+
+invite(UserName, ChannelName) when is_list(UserName), is_list(ChannelName) ->
+
+    sc_irc_validate:user_name(UserName),
+    sc_irc_validate:channel_name(ChannelName),
+    valid_assemble("INVITE", [UserName, ChannelName]).
+
+    % expect ERR_NEEDMOREPARAMS   | ERR_NOSUCHNICK | ERR_NOTONCHANNEL | ERR_USERONCHANNEL
+    %        ERR_CHANOPRIVSNEEDED | RPL_INVITING   | RPL_AWAY

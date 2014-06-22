@@ -95,6 +95,16 @@ channel_name(CName) ->
 
 
 
+%% @doc Throws if the argument passed in isn't a valid channel name (NOT IMPLEMENTED).
+
+user_name(CName) ->
+
+    ok.
+
+
+
+
+
 %% @doc Throws if the argument passed in isn't a valid channel name or username (NOT IMPLEMENTED).
 
 channel_or_user(CName) ->
