@@ -51,7 +51,7 @@ irc_strcomp_i(Str1, Str2) ->
 
 is_legal_param(Param) ->
 
-    true.  % todo
+    true.  % todo whargarbl comeback
 
 
 

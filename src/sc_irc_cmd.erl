@@ -15,6 +15,10 @@
 
 
 
-pass(Passwd) when is_list(Passwd) ->
+pass(Password) when is_list(Password) ->
 
-    "PASS " ++ Passwd
+    sc_irc_util:throw_on_illegal_param(Password),
+
+    "PASS " ++ Passwd.
+
+    % expect ERR_NEEDMOREPARAMS or ERR_ALREADYREGISTRED
