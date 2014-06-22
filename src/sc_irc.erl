@@ -1,4 +1,17 @@
 
+%% @doc sc_irc - a simple RFC 1459 client for Erlang
+%%
+%% http://irchelp.org/irchelp/rfc/rfc.html
+
+
+%% @todo max nick length semi-configurable - 9, any, or server-defined, rfc section 1.2 vs reality
+%% @todo ircops mentioned section 1.2.1; squit, connect, kill
+
+
+
+
+
+
 -module(sc_irc).
 
 
@@ -57,12 +70,22 @@ disconnect(_Pid) ->
 
 -spec channel_type(ChannelName::[char()]) -> local | global.
 
+% 1.3 defines the channel length as up to 200 including prefix
+% todo spec test around length
+channel_type(Name) when is_list(Name), length(Name) > 200 ->
+
+    throw(badarg);
+
+
+
 channel_type([$&|Rem]) ->
 
     case lists:all(fun legal_channel_name_char/1, Rem) of
     	true -> local;
     	false -> throw(badarg)
     end;
+
+
 
 channel_type([$#|Rem]) ->
 
