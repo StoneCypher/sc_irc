@@ -7,11 +7,23 @@
 
 -export([
 
+    assemble/1,
+      assemble/2,
+      assemble/3,
+
     pass/1,
     nick/1,
     user/4
 
 ]).
+
+
+
+
+
+assemble(Command)                   -> Command.
+assemble(Command, Params)           -> sc:implode(" ", [Command] ++ Params).
+assemble(Command, Params, Trailing) -> sc:implode(" ", [Command] ++ Params ++ [":" ++ Trailing]).
 
 
 
