@@ -32,6 +32,22 @@ construct_loop(Config, Handler, ConnectionTag) ->
 
 
 
+dispatch_one(Handler, Message, ConnectionTag) when is_pid(Handler) ->
+
+    Handler ! { irc_receive, Message, ConnectionTag };
+
+
+
+
+
+dispatch_one(Handler, Message, ConnectionTag) when is_function(Handler) ->
+
+    Handler(Message, ConnectionTag).
+
+
+
+
+
 dispatch_complete_from([], _Handler, _ConnectionTag) ->
 
     [];
@@ -56,10 +72,7 @@ dispatch_complete_from(WorkQueue, Handler, ConnectionTag) ->
 
     end,
 
-% todo whargarbl the handler should also be able to be a called function
-
-%   [ Handler ! { irc_receive, ConnectionTag, Item } || Item <- Parse ],
-    [ io:format("~p~n~n", [{ irc_receive, ConnectionTag, Item }]) || Item <- Parse ],
+    [ dispatch_one(Handler, sc_irc:parse_message(Item), ConnectionTag) || Item <- Parse ],
 
     Keep.
 
@@ -89,7 +102,7 @@ loop(Config, Handler, ConnectionTag, Socket, WorkQueue) ->
             ok;
 
         MisunderstoodMessage ->
-            Handler ! { error, misunderstood_message, MisunderstoodMessage },
+            Handler ! { error, sc_irc_connection, misunderstood_message, MisunderstoodMessage },
             loop(Config, Handler, ConnectionTag, Socket, NextWorkQueue)
 
     end.

@@ -25,13 +25,15 @@
 
 -export( [
 
-	connect/1,
-	disconnect/1,
+    connect/1,
+      connect/2,
 
-	channel_type/1,
-	  legal_channel_name_char/1,
+    disconnect/1,
 
-	parse_message/1
+    channel_type/1,
+      legal_channel_name_char/1,
+
+    parse_message/1
 
 ] ).
 
@@ -56,6 +58,16 @@
 %% @doc Connect to a server.
 
 connect(_Config) ->
+
+    todo.
+
+
+
+
+
+%% @doc Connect to a server.
+
+connect(ManagedConfig, Handler) ->
 
     todo.
 
@@ -91,8 +103,8 @@ channel_type(Name) when is_list(Name), length(Name) > 200 ->
 channel_type([$&|Rem]) ->
 
     case lists:all(fun legal_channel_name_char/1, Rem) of
-    	true -> local;
-    	false -> throw(badarg)
+        true -> local;
+        false -> throw(badarg)
     end;
 
 
@@ -100,8 +112,8 @@ channel_type([$&|Rem]) ->
 channel_type([$#|Rem]) ->
 
     case lists:all(fun legal_channel_name_char/1, Rem) of
-    	true -> global;
-    	false -> throw(badarg)
+        true -> global;
+        false -> throw(badarg)
     end.
 
 
@@ -123,8 +135,10 @@ legal_channel_name_char(I) when is_integer(I), I >= 0, I =< 255 -> true.  % whar
 
 parse_message([$:|RemMessage]) ->
 
-    [Prefix, Command | Parameters] = sc:explode(" ", RemMessage),
-    #irc_message{ prefix=Prefix, command=Command, parameters=Parameters, paramstring=sc:implode(" ", Parameters) };
+    [ Front, MaybeTail ] = sc:explode(" :", RemMessage, 2),
+
+    [Prefix, Command | Parameters] = sc:explode(" ", Front),
+    #irc_message{ prefix=Prefix, command=Command, parameters=Parameters ++ [MaybeTail] };
 
 
 
@@ -132,5 +146,7 @@ parse_message([$:|RemMessage]) ->
 
 parse_message(Message) when is_list(Message) ->
 
-    [Command | Parameters] = sc:explode(" ", Message),
-    #irc_message{ command=Command, parameters=Parameters, paramstring=sc:implode(" ", Parameters) }.
+    [ Front, MaybeTail ] = sc:explode(" :", Message, 2),
+
+    [Command | Parameters] = sc:explode(" ", Front),
+    #irc_message{ command=Command, parameters=Parameters ++ [MaybeTail] }.

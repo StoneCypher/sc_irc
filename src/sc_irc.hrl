@@ -16,7 +16,7 @@
     port                 = 6667,
 
     nick,
-    pass                 = "",
+    pass,
 
     user_name            = "sc_irc",
     host_name            = "8",                           % irc legacy - 0 for visible, 8 for invisible
