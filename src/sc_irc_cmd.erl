@@ -6,6 +6,9 @@
 
 % TODO whargarbl gotta walk section 4 again for parsing
 
+% skipped ahead to ping/pong, go back from version
+% does not implement 4.6.2 ping/2
+
 
 
 
@@ -32,7 +35,9 @@
     list/0,    list/1,
     invite/2,
     kick/2,    kick/3,
-    version/0
+    version/0,
+    ping/1,
+    pong/1
 
 ]).
 
@@ -354,3 +359,27 @@ version() ->
     valid_assemble("VERSION", []).
 
     % expect ERR_NEEDMOREPARAMS | ERR_NOSUCHCHANNEL | ERR_BADCHANMASK | ERR_CHANOPRIVSNEEDED | ERR_NOTONCHANNEL
+
+
+
+
+
+%% @doc Pings a remote server or user.
+
+ping(Target) when is_list(Target) ->
+
+    valid_assemble("PING", [Target]).
+
+    % expect ERR_NOORIGIN | ERR_NOSUCHSERVER
+
+
+
+
+
+%% @doc Pong-responds to a ping.
+
+pong(Target) when is_list(Target) ->
+
+    valid_assemble("PONG", [Target]).
+
+    % expect ERR_NOORIGIN | ERR_NOSUCHSERVER

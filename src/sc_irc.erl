@@ -46,8 +46,7 @@
 
     prefix     = none,
     command,
-    parameters  = [],
-    paramstring = ""
+    parameters  = []
 
 } ).
 
@@ -135,7 +134,7 @@ legal_channel_name_char(I) when is_integer(I), I >= 0, I =< 255 -> true.  % whar
 
 parse_message([$:|RemMessage]) ->
 
-    [ Front, MaybeTail ] = sc:explode(" :", RemMessage, 2),
+    [ Front | MaybeTail ] = sc:explode(" :", RemMessage, 2),
 
     [Prefix, Command | Parameters] = sc:explode(" ", Front),
     #irc_message{ prefix=Prefix, command=Command, parameters=Parameters ++ [MaybeTail] };
@@ -146,7 +145,7 @@ parse_message([$:|RemMessage]) ->
 
 parse_message(Message) when is_list(Message) ->
 
-    [ Front, MaybeTail ] = sc:explode(" :", Message, 2),
+    [ Front | MaybeTail ] = sc:explode(" :", Message, 2),
 
     [Command | Parameters] = sc:explode(" ", Front),
     #irc_message{ command=Command, parameters=Parameters ++ [MaybeTail] }.

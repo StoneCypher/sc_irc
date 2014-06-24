@@ -47,10 +47,21 @@ loop(Config, Handler, ConnectionTag, Connection, AutoPing) ->
             sc_irc_connection:close(Connection),
             ok;
 
-% todo
+        { error, connection_lost } ->
+            io:format("whargarbl: should implement reconnect behavior then loop here~n~n", []), % todo
+            { todo, whargarbl, "should implement reconnect behavior then loop here" };
+
+        { irc_receive, {irc_message, _Server, "PING", [PingVal]}, ConnectionTag } when AutoPing == true ->
+            sc_irc_connection:send( Connection, sc_irc_cmd:pong(PingVal) ),
+            loop(Config, Handler, ConnectionTag, Connection, AutoPing);
+
+        { irc_receive, Message, ConnectionTag } ->
+            io:format("[Received] ~p~n~n", [Message]), % todo
+            Handler ! { irc_receive, Message, ConnectionTag },
+            loop(Config, Handler, ConnectionTag, Connection, AutoPing);
 
         MisunderstoodMessage ->
-            io:format("[Misunderstood] ~p~n~n", [MisunderstoodMessage]), % todo
+            io:format("[Mgr Misunderstood] ~p~n~n", [MisunderstoodMessage]), % todo
             Handler ! { error, sc_irc_connection_manager, misunderstood_message, MisunderstoodMessage },
             loop(Config, Handler, ConnectionTag, Connection, AutoPing)
 
