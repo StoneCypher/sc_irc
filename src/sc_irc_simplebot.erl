@@ -8,9 +8,20 @@
 -export([
 
     start/0,
-    stop/1
+    stop/1,
+
+    is_simplebot/1,
+
+    connect_to/2
 
 ]).
+
+
+
+
+
+is_simplebot( { sc_irc_simplebot, _ } ) -> true;
+is_simplebot( _ )                       -> false.
 
 
 
@@ -35,7 +46,6 @@ loop() ->
 start() ->
 
     { sc_irc_simplebot, spawn( fun() -> loop() end ) }.
-
 
 
 
