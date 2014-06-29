@@ -16,7 +16,7 @@ tl;dr
 
 
 
-Current Library Status: *Not Usable*
+Current Library Status: *Barely Usable*
 ------------------------------------
 
 This library is considered to be not ready.  It is just started in development.  It's barely effective in the REPL yet.
