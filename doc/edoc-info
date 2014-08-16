@@ -2,4 +2,4 @@
 {application,sc_irc}.
 {packages,[]}.
 {modules,[sc_irc,sc_irc_cmd,sc_irc_connection,sc_irc_connection_manager,
-          sc_irc_util,sc_irc_validate]}.
+          sc_irc_simplebot,sc_irc_util,sc_irc_validate]}.

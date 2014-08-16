@@ -87,6 +87,6 @@ open(Config, Handler, ConnectionTag) ->
 
 
 
-close(ConnectionHandle) ->
+close(_ConnectionHandle) ->
 
     todo.

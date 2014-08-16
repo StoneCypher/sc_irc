@@ -54,3 +54,9 @@ start() ->
 stop( { sc_irc_simplebot, Pid } ) ->
 
     Pid ! terminate.
+
+
+
+
+
+connect_to(_, _) -> todo.

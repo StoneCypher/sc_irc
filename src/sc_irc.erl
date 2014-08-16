@@ -44,9 +44,9 @@
 
 -record( irc_message, {
 
-    prefix     = none,
-    command,
-    parameters  = []
+    prefix     = none :: list() | atom(),
+    command           :: list(),
+    parameters = []   :: list()
 
 } ).
 
@@ -66,7 +66,7 @@ connect(_Config) ->
 
 %% @doc Connect to a server.
 
-connect(ManagedConfig, Handler) ->
+connect(_ManagedConfig, _Handler) ->
 
     todo.
 
